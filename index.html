@@ -1,51 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Digital ocean haskell : A client library for Digital Ocean written in Haskell">
+    <title>Digital ocean haskell by arnoblalam</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Digital ocean haskell</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>Digital ocean haskell</h1>
+        <p>A client library for Digital Ocean written in Haskell</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/arnoblalam/digital_ocean_haskell">View on GitHub</a>
+        <p class="view"><a href="https://github.com/arnoblalam/digital_ocean_haskell">View the Project on GitHub <small>arnoblalam/digital_ocean_haskell</small></a></p>
 
-          <h1 id="project_title">Digital ocean haskell</h1>
-          <h2 id="project_tagline">A client library for Digital Ocean written in Haskell</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/arnoblalam/digital_ocean_haskell/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/arnoblalam/digital_ocean_haskell/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li><a href="https://github.com/arnoblalam/digital_ocean_haskell/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/arnoblalam/digital_ocean_haskell/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/arnoblalam/digital_ocean_haskell">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
         <h1>
 <a id="digital_ocean_haskell" class="anchor" href="#digital_ocean_haskell" aria-hidden="true"><span class="octicon octicon-link"></span></a>digital_ocean_haskell</h1>
 
-<p>A client library for Digital Ocean written in Haskell</p>
-      </section>
-    </div>
+<p>digtal_ocean_haskell is a haskell library that provide easy access to digitalocean.com APIs to manage droplets, images and more.</p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Digital ocean haskell maintained by <a href="https://github.com/arnoblalam">arnoblalam</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+<h2>
+<a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to install</h2>
+
+<p>You can install python-digitalocean using <strong>pip</strong></p>
+
+<pre><code>cabal install digital-ocean
+</code></pre>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<p>digital_ocean_haskell support all the features provided via digitalocean.com APIs, such as:</p>
+
+<ul>
+<li>Get user's Droplets</li>
+<li>Get user's Images (Snapshot and Backups)</li>
+<li>Get public Images</li>
+<li>Get Droplet's event status</li>
+<li>Create and Remove a Droplet</li>
+<li>Resize a Droplet</li>
+<li>Shutdown, restart and boot a Droplet</li>
+<li>Power off, power on and "power cycle" a Droplet</li>
+<li>Perform Snapshot</li>
+<li>Enable/Disable automatic Backups</li>
+<li>Restore root password of a Droplet</li>
+</ul>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<h3>
+<a id="shutdown-all-droplets" class="anchor" href="#shutdown-all-droplets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shutdown all droplets</h3>
+
+<p>This example shows how to shutdown all the active droplets:</p>
+
+<div class="highlight highlight-haskell"><pre><span class="pl-k">import</span> <span class="pl-s3">DigitalOcean</span>
+myManager = manager {token=<span class="pl-s1"><span class="pl-pds">"</span>secretspecialuniquesnowflake<span class="pl-pds">"</span></span>}
+myDroplets = getAllDroplets myManager
+<span class="pl-s3">map</span> shutdown myDroplets</pre></div>
+
+<h3>
+<a id="creating-a-droplet-and-checking-its-status" class="anchor" href="#creating-a-droplet-and-checking-its-status" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a Droplet and checking its status</h3>
+
+<p>This example shows how to create a droplet and how to check its status</p>
+
+<div class="highlight highlight-haskell"><pre><span class="pl-k">import</span> <span class="pl-s3">DigitalOcean</span>
+myDroplet = <span class="pl-c1">Droplet</span>{token=<span class="pl-s1"><span class="pl-pds">"</span>secretspecialuniquesnowflake<span class="pl-pds">"</span></span>,
+                               name='<span class="pl-c1">Example'</span>,
+                               region='nyc2', <span class="pl-c">-- New York 2</span>
+                               image='ubuntu-<span class="pl-c1">14</span>-<span class="pl-c1">04</span>-x64', <span class="pl-c">-- Ubuntu 14.04 x64</span>
+                               sizeSlug='512mb',  <span class="pl-c">-- 512MB</span>
+                               backups=<span class="pl-sc">True</span>}
+createDroplet myManager myDroplet</pre></div>
+
+<h3>
+<a id="checking-the-status-of-the-droplet" class="anchor" href="#checking-the-status-of-the-droplet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Checking the status of the droplet</h3>
+
+<div class="highlight highlight-haskell"><pre>actions = getActions myDroplet myManager
+<span class="pl-s3">map</span> load actions</pre></div>
+
+<h2>
+<a id="links" class="anchor" href="#links" aria-hidden="true"><span class="octicon octicon-link"></span></a>Links</h2>
+
+<ul>
+<li>Project Site: <a href="http://arnoblalam.github.io/haskell_digital_ocean">http://arnoblalam.github.io/haskell_digital_ocean</a>
+</li>
+<li>GitHub: <a href="https://github.com/koalalorenzo/python-digitalocean">https://github.com/arnoblalam/digital_ocean_haskell</a>
+</li>
+<li>Author Website: <a href="http://arnoblalam.github.io">http://arnoblalam.github.io</a>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/arnoblalam">arnoblalam</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -56,7 +121,6 @@
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
-
 
   </body>
 </html>
